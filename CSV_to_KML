@@ -1,0 +1,24 @@
+import pandas as pd
+import simplekml
+
+# Load the CSV file with latitude and longitude
+csv_file = "jamaica_constabulary_force_with_lat_long.csv"
+df = pd.read_csv(csv_file)
+
+# Create a KML object
+kml = simplekml.Kml()
+
+# Loop through the DataFrame and add points to the KML file
+for index, row in df.iterrows():
+    division = row['Division']
+    lat = row['Latitude']
+    lon = row['Longitude']
+
+    # Add a point to the KML
+    kml.newpoint(name=division, coords=[(lon, lat)], description=f"Murder 2023: {row['Murder 2023']}, Murder 2024: {row['Murder 2024']}")
+
+# Save the KML file
+kml_file = "jamaica_constabulary_force.kml"
+kml.save(kml_file)
+
+print(f"KML file saved as {kml_file}")
